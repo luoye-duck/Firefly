@@ -1,0 +1,346 @@
+---
+import { zh_CN } from "@/i18n/languages/zh_CN";
+import { zh_TW } from "@/i18n/languages/zh_TW";
+import { en } from "@/i18n/languages/en";
+import { ja } from "@/i18n/languages/ja";
+
+// 将翻译数据序列化为 JSON
+const translations = {
+	zh_CN: zh_CN,
+	zh_TW: zh_TW,
+	en: en,
+	ja: ja,
+};
+
+const translationsJson = JSON.stringify(translations);
+---
+
+<script
+	is:inline
+	define:vars={{ translationsJson }}
+>
+	(function () {
+		const translations = JSON.parse(translationsJson);
+		const DEFAULT_LANG = "zh_CN";
+		const SUPPORTED_LANGS = ["zh_CN", "zh_TW", "en", "ja"];
+
+		// 需要扫描翻译的属性列表
+		const TRANSLATABLE_ATTRS = [
+			"aria-label",
+			"title",
+			"placeholder",
+			"alt",
+			"data-show-more",
+			"data-show-less",
+		];
+
+		// 排除的标签（不扫描其内部文本）
+		const EXCLUDED_TAGS = new Set([
+			"SCRIPT",
+			"STYLE",
+			"NOSCRIPT",
+			"CODE",
+			"PRE",
+			"KBD",
+		]);
+
+		// 排除的 CSS 类名（文章正文等用户内容区域，不进行翻译）
+		const EXCLUDED_CLASSES = ["prose", "custom-md", "markdown-content"];
+
+		function getStoredLang() {
+			try {
+				const lang = localStorage.getItem("user-lang") || DEFAULT_LANG;
+				return SUPPORTED_LANGS.includes(lang) ? lang : DEFAULT_LANG;
+			} catch {
+				return DEFAULT_LANG;
+			}
+		}
+
+		// 追踪当前已应用的语言（初始为构建时的默认语言 zh_CN）
+		let currentAppliedLang = DEFAULT_LANG;
+
+		// 构建替换对：从源语言到目标语言的所有 (原文, 译文) 对
+		function buildReplacements(sourceLang, targetLang) {
+			const sourceDict = translations[sourceLang] || translations[DEFAULT_LANG];
+			const targetDict = translations[targetLang] || translations[DEFAULT_LANG];
+			const pairs = [];
+
+			for (const key in sourceDict) {
+				const from = sourceDict[key];
+				const to = targetDict[key];
+				if (!from || !to || from === to) continue;
+
+				if (/\{[^}]+\}/.test(from)) {
+					// 模板字符串：拆分为静态部分分别替换
+					// 例如 "查看更多结果 ({count} 个更多)" → ["查看更多结果 (", " 个更多)"]
+					const fromParts = from.split(/\{[^}]+\}/g);
+					const toParts = to.split(/\{[^}]+\}/g);
+					if (fromParts.length === toParts.length) {
+						for (let i = 0; i < fromParts.length; i++) {
+							if (
+								fromParts[i] !== toParts[i] &&
+								fromParts[i].length >= 2
+							) {
+								pairs.push({ from: fromParts[i], to: toParts[i] });
+							}
+						}
+					}
+				} else {
+					// 普通字符串：直接替换
+					pairs.push({ from, to });
+				}
+			}
+
+			// 按原文长度降序排列，避免短字符串先替换导致长字符串匹配失败
+			pairs.sort((a, b) => b.from.length - a.from.length);
+			return pairs;
+		}
+
+		// 对单个字符串应用所有替换
+		function applyReplacementsToString(text, pairs) {
+			if (!text || !text.trim()) return text;
+			let result = text;
+			for (let i = 0; i < pairs.length; i++) {
+				const { from, to } = pairs[i];
+				if (result.indexOf(from) !== -1) {
+					result = result.split(from).join(to);
+				}
+			}
+			return result;
+		}
+
+		// 检查节点是否在排除的标签或类名内
+		function isExcludedNode(node) {
+			let parent = node.parentNode;
+			while (parent && parent !== document.body) {
+				if (parent.tagName && EXCLUDED_TAGS.has(parent.tagName)) {
+					return true;
+				}
+				if (parent.classList) {
+					for (let i = 0; i < EXCLUDED_CLASSES.length; i++) {
+						if (parent.classList.contains(EXCLUDED_CLASSES[i])) {
+							return true;
+						}
+					}
+				}
+				parent = parent.parentNode;
+			}
+			return false;
+		}
+
+		function applyTranslations(targetLang) {
+			if (!SUPPORTED_LANGS.includes(targetLang)) {
+				targetLang = DEFAULT_LANG;
+			}
+			if (targetLang === currentAppliedLang) return;
+
+			const pairs = buildReplacements(currentAppliedLang, targetLang);
+			if (pairs.length === 0) {
+				currentAppliedLang = targetLang;
+				document.documentElement.lang = targetLang;
+				return;
+			}
+
+			// 1. 扫描并替换所有文本节点
+			const walker = document.createTreeWalker(
+				document.body,
+				NodeFilter.SHOW_TEXT,
+				{
+					acceptNode(node) {
+						if (!node.nodeValue || !node.nodeValue.trim()) {
+							return NodeFilter.FILTER_REJECT;
+						}
+						if (isExcludedNode(node)) {
+							return NodeFilter.FILTER_REJECT;
+						}
+						return NodeFilter.FILTER_ACCEPT;
+					},
+				}
+			);
+
+			const textNodes = [];
+			let node;
+			while ((node = walker.nextNode())) {
+				textNodes.push(node);
+			}
+
+			for (let i = 0; i < textNodes.length; i++) {
+				const textNode = textNodes[i];
+				const original = textNode.nodeValue;
+				const replaced = applyReplacementsToString(original, pairs);
+				if (replaced !== original) {
+					textNode.nodeValue = replaced;
+				}
+			}
+
+			// 2. 扫描并替换属性
+			const allElements = document.body.querySelectorAll("*");
+			allElements.forEach(function (el) {
+				TRANSLATABLE_ATTRS.forEach(function (attrName) {
+					const val = el.getAttribute(attrName);
+					if (val) {
+						const replaced = applyReplacementsToString(val, pairs);
+						if (replaced !== val) {
+							el.setAttribute(attrName, replaced);
+						}
+					}
+				});
+			});
+
+			// 3. 处理已有的 data-i18n-key / data-i18n-placeholder / data-i18n-title 元素
+			const targetDict = translations[targetLang] || translations[DEFAULT_LANG];
+			document.querySelectorAll("[data-i18n-key]").forEach(function (el) {
+				const key = el.getAttribute("data-i18n-key");
+				if (key && targetDict[key]) {
+					el.textContent = targetDict[key];
+				}
+			});
+			document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+				const key = el.getAttribute("data-i18n-placeholder");
+				if (key && targetDict[key]) {
+					el.setAttribute("placeholder", targetDict[key]);
+				}
+			});
+			document.querySelectorAll("[data-i18n-title]").forEach(function (el) {
+				const key = el.getAttribute("data-i18n-title");
+				if (key && targetDict[key]) {
+					el.setAttribute("title", targetDict[key]);
+					el.setAttribute("aria-label", targetDict[key]);
+				}
+			});
+
+			currentAppliedLang = targetLang;
+			document.documentElement.lang = targetLang;
+		}
+
+		// 从构建默认语言直接翻译到目标语言（页面首次加载时使用）
+		function applyTranslationsFromDefault(targetLang) {
+			currentAppliedLang = DEFAULT_LANG;
+			applyTranslations(targetLang);
+		}
+
+		// 对指定根元素内的文本和属性进行翻译（用于动态加载的内容）
+		function translateSubtree(root, targetLang) {
+			if (targetLang === DEFAULT_LANG) return;
+			const pairs = buildReplacements(DEFAULT_LANG, targetLang);
+			if (pairs.length === 0) return;
+
+			// 扫描文本节点
+			const walker = document.createTreeWalker(
+				root,
+				NodeFilter.SHOW_TEXT,
+				{
+					acceptNode(node) {
+						if (!node.nodeValue || !node.nodeValue.trim()) {
+							return NodeFilter.FILTER_REJECT;
+						}
+						if (isExcludedNode(node)) {
+							return NodeFilter.FILTER_REJECT;
+						}
+						return NodeFilter.FILTER_ACCEPT;
+					},
+				}
+			);
+
+			const textNodes = [];
+			let n;
+			while ((n = walker.nextNode())) {
+				textNodes.push(n);
+			}
+
+			for (let i = 0; i < textNodes.length; i++) {
+				const original = textNodes[i].nodeValue;
+				const replaced = applyReplacementsToString(original, pairs);
+				if (replaced !== original) {
+					textNodes[i].nodeValue = replaced;
+				}
+			}
+
+			// 扫描属性
+			const elements = root.querySelectorAll
+				? root.querySelectorAll("*")
+				: [];
+			elements.forEach(function (el) {
+				TRANSLATABLE_ATTRS.forEach(function (attrName) {
+					const val = el.getAttribute(attrName);
+					if (val) {
+						const replaced = applyReplacementsToString(val, pairs);
+						if (replaced !== val) {
+							el.setAttribute(attrName, replaced);
+						}
+					}
+				});
+			});
+		}
+
+		// MutationObserver：监听动态插入的内容并翻译
+		let mutationTimer = null;
+		const observer = new MutationObserver(function (mutations) {
+			if (getStoredLang() === DEFAULT_LANG) return;
+
+			if (mutationTimer) clearTimeout(mutationTimer);
+			mutationTimer = setTimeout(function () {
+				const targetLang = getStoredLang();
+				mutations.forEach(function (mutation) {
+					if (mutation.type === "childList") {
+						mutation.addedNodes.forEach(function (addedNode) {
+							if (addedNode.nodeType === Node.ELEMENT_NODE) {
+								translateSubtree(addedNode, targetLang);
+							} else if (
+								addedNode.nodeType === Node.TEXT_NODE &&
+								addedNode.nodeValue &&
+								addedNode.nodeValue.trim() &&
+								!isExcludedNode(addedNode)
+							) {
+								const pairs = buildReplacements(DEFAULT_LANG, targetLang);
+								const replaced = applyReplacementsToString(
+									addedNode.nodeValue,
+									pairs
+								);
+								if (replaced !== addedNode.nodeValue) {
+									addedNode.nodeValue = replaced;
+								}
+							}
+						});
+					}
+				});
+			}, 200);
+		});
+
+		// 页面加载时立即应用存储的语言
+		applyTranslationsFromDefault(getStoredLang());
+
+		// 启动 MutationObserver 监听动态内容
+		if (document.body) {
+			observer.observe(document.body, {
+				childList: true,
+				subtree: true,
+			});
+		}
+
+		// 监听语言切换事件（来自 LanguageSwitch.svelte）
+		window.addEventListener("language-change", function (e) {
+			const lang = (e.detail && e.detail.lang) || DEFAULT_LANG;
+			applyTranslations(lang);
+		});
+
+		// Swup 页面切换后重新应用翻译
+		function setupSwupHook() {
+			if (window.swup && window.swup.hooks) {
+				window.swup.hooks.on("content:replace", function () {
+					// Swup 替换内容后，新内容是构建时的 zh_CN，需要从默认语言翻译
+					applyTranslationsFromDefault(getStoredLang());
+					// 重新启动 MutationObserver
+					if (document.body) {
+						observer.observe(document.body, {
+							childList: true,
+							subtree: true,
+						});
+					}
+				});
+			}
+		}
+		setupSwupHook();
+		document.addEventListener("swup:enable", setupSwupHook);
+	})();
+</script>

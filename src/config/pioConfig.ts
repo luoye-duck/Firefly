@@ -143,11 +143,7 @@ export const live2dWidgetConfig: Live2DWidgetConfig = {
 				label: "切换模型",
 				action: "switchModel",
 			},
-			{
-				icon: "mdi:github",
-				label: "GitHub",
-				action: "github",
-			},
+
 		],
 		// 菜单对齐方式
 		align: "right" as const,

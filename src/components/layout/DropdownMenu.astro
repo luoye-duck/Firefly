@@ -20,6 +20,21 @@ if (!link) {
 const processedLink = link;
 
 const hasChildren = processedLink.children && processedLink.children.length > 0;
+
+// URL 到 i18n key 的映射，用于客户端语言切换
+const urlToI18nKey: Record<string, string> = {
+	"/": "home",
+	"/archive/": "archive",
+	"/categories/": "categories",
+	"/tags/": "tags",
+	"/about/": "about",
+	"/anime/": "anime",
+	"/bangumi/": "bangumi",
+};
+
+function getI18nKey(url: string): string | null {
+	return urlToI18nKey[url] || null;
+}
 ---
 
 <div class:list={["dropdown-container", className]} data-dropdown>
@@ -32,7 +47,7 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 		>
 			<div class="flex items-center gap-1.5">
 				{processedLink.icon && <Icon is:inline name={processedLink.icon} class="text-[1.1rem] mr-1.5 navbar-icon" />}
-				{processedLink.name}
+				<span data-i18n-key={getI18nKey(processedLink.url) || undefined}>{processedLink.name}</span>
 			</div>
 			<Icon is:inline name="material-symbols:keyboard-arrow-down-rounded" class="text-[1.2rem] transition-transform duration-200 dropdown-arrow absolute right-2.5 top-1/2 -translate-y-1/2" />
 		</button>
@@ -46,7 +61,7 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 						class="dropdown-item h-10"
 					>
 						{child.icon && <Icon is:inline name={child.icon} class="text-[1.25rem] mr-3 navbar-icon" />}
-						<span>{child.name}</span>
+						<span data-i18n-key={getI18nKey(child.url) || undefined}>{child.name}</span>
 						{child.external && (
 							<Icon is:inline name="fa7-solid:arrow-up-right-from-square" class="text-[0.75rem] text-black/25 dark:text-white/25 ml-auto" />
 						)}
@@ -63,7 +78,7 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 		>
 			<div class="flex items-center gap-1.5">
 				{processedLink.icon && <Icon is:inline name={processedLink.icon} class="text-[1.1rem] mr-1.5 navbar-icon" />}
-				{processedLink.name}
+				<span data-i18n-key={getI18nKey(processedLink.url) || undefined}>{processedLink.name}</span>
 				{processedLink.external && <Icon is:inline name="fa7-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-px ml-1 text-black/20 dark:text-white/20" />}
 			</div>
 		</a>

@@ -25,12 +25,6 @@ enum I18nKey {
 	announcement = "announcement",
 	announcementClose = "announcementClose",
 
-	comments = "comments",
-	commentSection = "commentSection",
-	commentSubtitle = "commentSubtitle",
-	commentNotConfigured = "commentNotConfigured",
-	guestbookCommentHint = "guestbookCommentHint",
-
 	untitled = "untitled",
 	uncategorized = "uncategorized",
 	noTags = "noTags",
@@ -79,12 +73,6 @@ enum I18nKey {
 	updatedAt = "updatedAt",
 	readTime = "readTime",
 	license = "license",
-	friends = "friends",
-	friendsDescription = "friendsDescription",
-	searchFriends = "searchFriends",
-	friendsEmpty = "friendsEmpty",
-	guestbook = "guestbook",
-	guestbookDescription = "guestbookDescription",
 	bangumi = "bangumi",
 
 	// 番组计划筛选和状态文本
@@ -276,22 +264,6 @@ enum I18nKey {
 	postListLayoutList = "postListLayoutList",
 	postListLayoutGrid = "postListLayoutGrid",
 
-	// 打赏页面
-	sponsor = "sponsor",
-	sponsorTitle = "sponsorTitle",
-	sponsorDescription = "sponsorDescription",
-	sponsorMethods = "sponsorMethods",
-	sponsorList = "sponsorList",
-	sponsorEmpty = "sponsorEmpty",
-	sponsorAmount = "sponsorAmount",
-	sponsorDate = "sponsorDate",
-	sponsorMessage = "sponsorMessage",
-	sponsorAnonymous = "sponsorAnonymous",
-	scanToSponsor = "scanToSponsor",
-	sponsorGoTo = "sponsorGoTo",
-	sponsorButton = "sponsorButton",
-	sponsorButtonText = "sponsorButtonText",
-
 	shareOnSocial = "shareOnSocial",
 	shareOnSocialDescription = "shareOnSocialDescription",
 
@@ -357,15 +329,6 @@ enum I18nKey {
 	codeCollapsibleShowLess = "codeCollapsibleShowLess",
 	codeCollapsibleExpanded = "codeCollapsibleExpanded",
 	codeCollapsibleCollapsed = "codeCollapsibleCollapsed",
-
-	// 相册页面
-	gallery = "gallery",
-	galleryDescription = "galleryDescription",
-	galleryPhotos = "galleryPhotos",
-	galleryAlbums = "galleryAlbums",
-	galleryNoAlbums = "galleryNoAlbums",
-	galleryBackToAlbums = "galleryBackToAlbums",
-	searchAlbums = "searchAlbums",
 
 	// 密码保护
 	passwordProtected = "passwordProtected",

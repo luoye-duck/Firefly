@@ -33,38 +33,12 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		],
 	});
 
-	// 友链
-	links.push(LinkPresets.Friends);
-
-	// 留言板
-	links.push(LinkPresets.Guestbook);
-
-	// 我的及其子菜单
-	links.push({
-		name: "我的",
-		url: "#",
-		icon: "material-symbols:person",
-		children: [
-			// 相册
-			LinkPresets.Gallery,
-
-			// 追番
-			LinkPresets.Anime,
-
-			// 番组计划
-			LinkPresets.Bangumi,
-		],
-	});
-
 	// 关于及其子菜单
 	links.push({
 		name: "关于",
 		url: "#",
 		icon: "material-symbols:info",
 		children: [
-			// 打赏
-			LinkPresets.Sponsor,
-
 			// 关于页面
 			LinkPresets.About,
 		],
@@ -78,28 +52,22 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		// 子菜单
 		children: [
 			{
-				name: "GitHub",
-				url: "https://github.com/CuteLeaf/Firefly",
+				name: "Bilibili",
+				url: "https://space.bilibili.com/3546655601199620?spm_id_from=333.1007.0.0",
 				external: true,
-				icon: "fa7-brands:github",
+				icon: "fa7-brands:bilibili",
 			},
 			{
-				name: "Gitee",
-				url: "https://gitee.com/CuteLeaf/Firefly",
+				name: "我的微博",
+				url: "https://weibo.com/u/8410609315",
 				external: true,
-				icon: "fa7-brands:gitee",
+				icon: "fa7-brands:weibo",
 			},
 			{
-				name: "QQ交流群",
-				url: "https://qm.qq.com/q/ZGsFa8qX2G",
+				name: "小红书",
+				url: "https://www.xiaohongshu.com/user/profile/67b15656000000000e01e8bb?xsec_token=ABTvvImNxYzE0Sqk5lILExmYSLx3DMrHAfEFNvJFqPXDA%3D&xsec_source=pc_search",
 				external: true,
-				icon: "fa7-brands:qq",
-			},
-			{
-				name: "Firefly文档",
-				url: "https://docs-firefly.cuteleaf.cn",
-				external: true,
-				icon: "material-symbols:docs",
+				icon: "simple-icons:xiaohongshu",
 			},
 		],
 	});
@@ -145,24 +113,6 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		url: "/tags/",
 		icon: "material-symbols:tag-rounded",
 	},
-	Friends: {
-		name: "友链",
-		url: "/friends/",
-		icon: "material-symbols:group",
-		pageKey: "friends",
-	},
-	Sponsor: {
-		name: "打赏",
-		url: "/sponsor/",
-		icon: "material-symbols:favorite",
-		pageKey: "sponsor",
-	},
-	Guestbook: {
-		name: "留言",
-		url: "/guestbook/",
-		icon: "material-symbols:chat",
-		pageKey: "guestbook",
-	},
 	About: {
 		name: "关于我",
 		url: "/about/",
@@ -173,12 +123,6 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		url: "/bangumi/",
 		icon: "material-symbols:movie",
 		pageKey: "bangumi",
-	},
-	Gallery: {
-		name: "相册",
-		url: "/gallery/",
-		icon: "material-symbols:photo-library",
-		pageKey: "gallery",
 	},
 	Anime: {
 		name: "追番",

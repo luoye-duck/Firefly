@@ -47,20 +47,6 @@ export const ja: Translation = {
 	[Key.announcement]: "お知らせ",
 	[Key.announcementClose]: "閉じる",
 
-	[Key.comments]: "コメント",
-	[Key.commentSection]: "コメント欄",
-	[Key.commentSubtitle]: "あなたの考えを共有し、みんなと議論しましょう",
-	[Key.commentNotConfigured]: "コメントシステムが設定されていません",
-	[Key.guestbookCommentHint]:
-		"設定ファイルでコメントシステムをまだ有効にしていません。有効にすると、訪問者がここにメッセージを残せるようになります",
-	[Key.friends]: "友達",
-	[Key.friendsDescription]:
-		"ここは私の友達です、お互いに訪問して交流することを歓迎します",
-	[Key.searchFriends]: "友達を検索...",
-	[Key.friendsEmpty]: "まだ友達がいません",
-	[Key.guestbook]: "ゲストブック",
-	[Key.guestbookDescription]:
-		"ここに足跡を残して、あなたの考えや提案を共有してください",
 	[Key.untitled]: "無題",
 	[Key.uncategorized]: "未分類",
 	[Key.noTags]: "タグなし",
@@ -285,24 +271,6 @@ export const ja: Translation = {
 	[Key.postListLayoutList]: "リスト",
 	[Key.postListLayoutGrid]: "グリッド",
 
-	// スポンサーページ
-	[Key.sponsor]: "スポンサー",
-	[Key.sponsorTitle]: "サポート",
-	[Key.sponsorDescription]:
-		"私のコンテンツがあなたの役に立ったなら、以下の方法で私をスポンサーしてください。あなたのサポートは私の継続的な創作の原動力です！",
-	[Key.sponsorMethods]: "支払い方法",
-	[Key.sponsorList]: "スポンサーリスト",
-	[Key.sponsorEmpty]: "スポンサー記録なし",
-	[Key.sponsorAmount]: "金額",
-	[Key.sponsorDate]: "日付",
-	[Key.sponsorMessage]: "メッセージ",
-	[Key.sponsorAnonymous]: "匿名",
-	[Key.scanToSponsor]: "スキャンしてスポンサー",
-	[Key.sponsorGoTo]: "スポンサーへ",
-	[Key.sponsorButton]: "サポートと共有",
-	[Key.sponsorButtonText]:
-		"この記事が役に立ったなら、共有またはサポートをお願いします！",
-
 	[Key.shareOnSocial]: "記事を共有",
 	[Key.shareOnSocialDescription]:
 		"この記事が役に立ったなら、ぜひ他の人と共有してください！",
@@ -370,16 +338,7 @@ export const ja: Translation = {
 	[Key.codeCollapsibleExpanded]: "コードブロックが展開されました",
 	[Key.codeCollapsibleCollapsed]: "コードブロックが折りたたまれました",
 
-	// ギャラリーページ
-	[Key.gallery]: "ギャラリー",
-	[Key.galleryDescription]: "人生の美しい瞬間を記録する",
-	[Key.galleryPhotos]: "枚の写真",
-	[Key.galleryAlbums]: "冊のアルバム",
-	[Key.galleryNoAlbums]: "アルバムがありません",
-	[Key.galleryBackToAlbums]: "アルバム一覧に戻る",
-	[Key.searchAlbums]: "アルバムを検索...",
-
-	// パスワード保護
+		// パスワード保護
 	[Key.passwordProtected]: "パスワード保護",
 	[Key.passwordProtectedDesc]:
 		"このコンテンツはパスワードで保護されています。表示するにはパスワードを入力してください。",

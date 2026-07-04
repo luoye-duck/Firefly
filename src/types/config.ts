@@ -1,7 +1,6 @@
 export type { AnalyticsConfig } from "./analyticsConfig";
 export type { AnnouncementConfig } from "./announcementConfig";
 export type { BackgroundWallpaperConfig } from "./backgroundWallpaper";
-export type { CommentConfig } from "./commentConfig";
 export type { CoverImageConfig } from "./coverImageConfig";
 export type { SakuraConfig } from "./effectsConfig";
 export type {
@@ -11,8 +10,6 @@ export type {
 } from "./expressiveCodeConfig";
 export type { FontSelectionConfig } from "./fontConfig";
 export type { FooterConfig } from "./footerConfig";
-export type { FriendLink, FriendsPageConfig } from "./friendsConfig";
-export type { GalleryAlbum, GalleryConfig } from "./galleryConfig";
 export type { LicenseConfig } from "./licenseConfig";
 export type { MusicPlayerConfig } from "./musicConfig";
 export type {
@@ -40,11 +37,6 @@ export type {
 	SiteConfig,
 	WALLPAPER_MODE,
 } from "./siteConfig";
-export type {
-	SponsorConfig,
-	SponsorItem,
-	SponsorMethod,
-} from "./sponsorConfig";
 
 // 响应式图像布局类型
 export type ResponsiveImageLayout = "constrained" | "full-width" | "none";

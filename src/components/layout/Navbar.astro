@@ -4,6 +4,7 @@ import * as path from "node:path";
 import type { ImageMetadata } from "astro";
 import { Icon } from "astro-icon/components";
 import DisplaySettings from "@/components/controls/DisplaySettingsIntegrated.svelte";
+import LanguageSwitch from "@/components/controls/LanguageSwitch.svelte";
 import LightDarkSwitch from "@/components/controls/LightDarkSwitch.svelte";
 import Search from "@/components/controls/Search.svelte";
 import MusicPlayer from "@/components/features/MusicPlayer.astro";
@@ -175,7 +176,8 @@ if (isLocalSrcLogo) {
                 )}
                 {/* @ts-ignore */}
                 <LightDarkSwitch client:load></LightDarkSwitch>
-                <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 lg:hidden!" id="nav-menu-switch">
+                <LanguageSwitch client:load></LanguageSwitch>
+                <button aria-label="Menu" name="Nav Menu" data-i18n-title="other" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 lg:hidden!" id="nav-menu-switch">
                     <Icon is:inline name="material-symbols:menu-rounded" class="text-[1.25rem]"></Icon>
                 </button>
             </div>
@@ -277,9 +279,19 @@ function loadButtonScript() {
         };
     }
 
+    let langSwitchBtn = document.getElementById("lang-switch-btn");
+    if (langSwitchBtn) {
+        langSwitchBtn.onclick = function () {
+            let langPanel = document.getElementById("lang-switch-panel");
+            if (langPanel) {
+                langPanel.classList.toggle("float-panel-closed");
+            }
+        };
+    }
+
     document.addEventListener("click", function(event) {
-        const panels = ["display-setting", "nav-menu-panel", "music-nav-panel", "theme-mode-panel"];
-        const buttons = ["display-settings-switch", "nav-menu-switch", "music-player-switch", "scheme-switch"];
+        const panels = ["display-setting", "nav-menu-panel", "music-nav-panel", "theme-mode-panel", "lang-switch-panel"];
+        const buttons = ["display-settings-switch", "nav-menu-switch", "music-player-switch", "scheme-switch", "lang-switch-btn"];
 
         panels.forEach((id, index) => {
             const panel = document.getElementById(id);

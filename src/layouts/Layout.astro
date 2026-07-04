@@ -8,6 +8,7 @@ import FontSetup from "@components/features/FontSetup.astro";
 import MusicManager from "@components/features/MusicManager.astro";
 import SakuraEffect from "@components/features/SakuraEffect.astro";
 import ConfigCarrier from "@components/layout/ConfigCarrier.astro";
+import ClientI18n from "@components/i18n/ClientI18n.astro";
 
 import {
 	analyticsConfig,
@@ -580,6 +581,9 @@ const siteLang = lang.replace("_", "-");
 
     <!-- Fancybox Manager -->
     <FancyboxManager />
+
+    <!-- Client-side i18n (language switching) -->
+    <ClientI18n />
   </body>
 </html>
 
@@ -1306,23 +1310,6 @@ function disableAnimation() {
         document.documentElement.setAttribute("data-theme", expectedTheme);
       }
 
-      // 检查当前页面是否为文章页面，如果是则触发自定义事件用于初始化评论系统
-      setTimeout(() => {
-        if (document.getElementById("tcomment")) {
-          // 触发自定义事件，通知评论系统页面已完全加载
-          const pageLoadedEvent = new CustomEvent("firefly:page:loaded", {
-            detail: {
-              path: window.location.pathname,
-              timestamp: Date.now(),
-            },
-          });
-          document.dispatchEvent(pageLoadedEvent);
-          console.log(
-            "Layout: 触发 firefly:page:loaded 事件，路径:",
-            window.location.pathname
-          );
-        }
-      }, 300);
     });
     window.swup.hooks.on("visit:end", (_visit: { to: { url: string } }) => {
       // Finish progress bar

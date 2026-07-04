@@ -47,18 +47,6 @@ export const zh_CN: Translation = {
 	[Key.announcement]: "公告",
 	[Key.announcementClose]: "关闭",
 
-	[Key.comments]: "评论",
-	[Key.commentSection]: "评论区",
-	[Key.commentSubtitle]: "分享你的想法，与大家交流讨论",
-	[Key.commentNotConfigured]: "评论系统暂未配置",
-	[Key.guestbookCommentHint]:
-		"您还未在配置文件中启用评论系统，启用后访客才可在此留言",
-	[Key.friends]: "友链",
-	[Key.friendsDescription]: "这里是我的朋友们，欢迎互相访问交流",
-	[Key.searchFriends]: "搜索友链...",
-	[Key.friendsEmpty]: "暂无友情链接",
-	[Key.guestbook]: "留言",
-	[Key.guestbookDescription]: "欢迎在这里留下你的足迹，分享你的想法和建议",
 	[Key.untitled]: "无标题",
 	[Key.uncategorized]: "未分类",
 	[Key.noTags]: "无标签",
@@ -278,24 +266,6 @@ export const zh_CN: Translation = {
 	[Key.postListLayoutList]: "列表",
 	[Key.postListLayoutGrid]: "网格",
 
-	// 打赏页面
-	[Key.sponsor]: "打赏",
-	[Key.sponsorTitle]: "打赏支持",
-	[Key.sponsorDescription]:
-		"如果我的内容对你有帮助，欢迎通过以下方式打赏我，你的支持是我持续创作的动力！",
-	[Key.sponsorMethods]: "打赏方式",
-	[Key.sponsorList]: "打赏列表",
-	[Key.sponsorEmpty]: "暂无打赏记录",
-	[Key.sponsorAmount]: "金额",
-	[Key.sponsorDate]: "日期",
-	[Key.sponsorMessage]: "留言",
-	[Key.sponsorAnonymous]: "匿名",
-	[Key.scanToSponsor]: "扫码打赏",
-	[Key.sponsorGoTo]: "前往打赏",
-	[Key.sponsorButton]: "支持与分享",
-	[Key.sponsorButtonText]:
-		"如果这篇文章对你有帮助，欢迎分享给更多人或打赏支持！",
-
 	[Key.shareOnSocial]: "文章分享",
 	[Key.shareOnSocialDescription]: "如果这篇文章对你有帮助，欢迎分享给更多人！",
 
@@ -362,16 +332,7 @@ export const zh_CN: Translation = {
 	[Key.codeCollapsibleExpanded]: "代码块已展开",
 	[Key.codeCollapsibleCollapsed]: "代码块已折叠",
 
-	// 相册页面
-	[Key.gallery]: "相册",
-	[Key.galleryDescription]: "记录生活中的美好瞬间",
-	[Key.galleryPhotos]: "张照片",
-	[Key.galleryAlbums]: "本相册",
-	[Key.galleryNoAlbums]: "暂无相册",
-	[Key.galleryBackToAlbums]: "返回相册列表",
-	[Key.searchAlbums]: "搜索相簿...",
-
-	// 密码保护
+		// 密码保护
 	[Key.passwordProtected]: "密码保护",
 	[Key.passwordProtectedDesc]: "此内容已被密码保护，请输入密码查看。",
 	[Key.passwordHint]: "提示",

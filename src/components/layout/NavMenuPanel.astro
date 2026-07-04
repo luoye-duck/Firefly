@@ -8,6 +8,20 @@ interface Props {
 }
 
 const processedLinks = Astro.props.links;
+
+const urlToI18nKey: Record<string, string> = {
+	"/": "home",
+	"/archive/": "archive",
+	"/categories/": "categories",
+	"/tags/": "tags",
+	"/about/": "about",
+	"/anime/": "anime",
+	"/bangumi/": "bangumi",
+};
+
+function getI18nKey(u: string): string | undefined {
+	return urlToI18nKey[u] || undefined;
+}
 ---
 <div id="nav-menu-panel" class:list={["float-panel float-panel-closed transition-all fixed right-4 px-2 py-2 max-h-[80vh] overflow-y-auto"]}>
     {processedLinks.map((link) => (
@@ -23,7 +37,7 @@ const processedLinks = Astro.props.links;
                     >
                         <div class="flex items-center transition text-black/75 dark:text-white/75 font-bold group-hover:text-(--primary) group-active:text-(--primary)">
 							{link.icon && <Icon is:inline name={link.icon} class="text-[1.1rem] mr-2" />}
-                            {link.name}
+                            <span data-i18n-key={getI18nKey(link.url)}>{link.name}</span>
                         </div>
                         <Icon is:inline name="material-symbols:keyboard-arrow-down-rounded"
                               class="transition text-[1.25rem] text-(--primary) mobile-dropdown-arrow duration-200"
@@ -38,7 +52,7 @@ const processedLinks = Astro.props.links;
                             >
                                 <div class="flex items-center transition text-black/60 dark:text-white/60 font-medium group-hover:text-(--primary) group-active:text-(--primary)">
 									{child.icon && <Icon is:inline name={child.icon} class="text-[1.1rem] mr-2" />}
-                                    {child.name}
+                                    <span data-i18n-key={getI18nKey(child.url)}>{child.name}</span>
                                 </div>
                                 {child.external && <Icon is:inline name="fa7-solid:arrow-up-right-from-square"
                                       class="transition text-[0.75rem] text-black/25 dark:text-white/25 -translate-x-1"
@@ -56,7 +70,7 @@ const processedLinks = Astro.props.links;
                 >
                     <div class="flex items-center transition text-black/75 dark:text-white/75 font-bold group-hover:text-(--primary) group-active:text-(--primary)">
 						{link.icon && <Icon is:inline name={link.icon} class="text-[1.1rem] mr-2" />}
-                        {link.name}
+                        <span data-i18n-key={getI18nKey(link.url)}>{link.name}</span>
                     </div>
 					{!link.external && <Icon is:inline name="material-symbols:chevron-right-rounded"
                           class="transition text-[1.25rem] text-(--primary)"

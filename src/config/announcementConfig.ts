@@ -5,7 +5,7 @@ export const announcementConfig: AnnouncementConfig = {
 	title: "公告",
 
 	// 公告内容
-	content: "欢迎来到落夜_duck的新博客站点，请文明浏览哦！",
+	content: "欢迎来到落夜_duck的新博客站点，请文明浏览哦！本站备用站点：luoyebk.eu.cc",
 
 	// 是否允许用户关闭公告
 	closable: true,

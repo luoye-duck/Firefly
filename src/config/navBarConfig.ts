@@ -69,6 +69,24 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 				external: true,
 				icon: "simple-icons:xiaohongshu",
 			},
+			{
+				name: "落夜翻译站",
+				url: "https://luoyefy.cc.cd",
+				external: true,
+				icon: "material-symbols:translate",
+			},
+			{
+				name: "Luoye WebOS 11",
+				url: "https://luoyeos.cc.cd",
+				external: true,
+				icon: "material-symbols:computer",
+			},
+			{
+				name: "备用博客站点",
+				url: "https://luoyebk.eu.cc",
+				external: true,
+				icon: "material-symbols:house",
+			},
 		],
 	});
 
